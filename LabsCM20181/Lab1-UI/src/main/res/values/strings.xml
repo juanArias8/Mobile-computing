@@ -13,4 +13,10 @@
     <string name="btn_plate_timer">Tiempo de preparación</string>
     <string name="txt_plate_ingredients">Ingredientes</string>
     <string name="iv_plate_content_description">Foto del plato</string>
+
+    <string name="txt_drink_name">Nombre</string>
+    <string name="txt_drink_price">Precio</string>
+    <string name="txt_drink_ingredients">Ingredientes</string>
+    <string name="iv_drink_add_image">Foto de la bebida</string>
+    <string name="button">Agregar Foto de la Bebida</string>
 </resources>

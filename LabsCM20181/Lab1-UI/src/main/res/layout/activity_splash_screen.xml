@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.edu.udea.compumovil.gr06_20181.lab1.SplashScreen"
-    android:background="@drawable/splash_screen">
+    android:background="@drawable/splash_screen"
+    tools:context="co.edu.udea.compumovil.gr06_20181.lab1.SplashScreen">
 
 </android.support.constraint.ConstraintLayout>
