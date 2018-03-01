@@ -1,5 +1,6 @@
 package co.edu.udea.compumovil.gr06_20181.lab1;
 
+import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +9,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class PlatesActivity extends AppCompatActivity {
 
@@ -22,6 +26,8 @@ public class PlatesActivity extends AppCompatActivity {
     private RadioButton rbPlateMain;
     private EditText etPlateIngredients;
     private TextView tvPlateInfo;
+
+    private String time = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,19 @@ public class PlatesActivity extends AppCompatActivity {
         etPlateIngredients = (EditText) findViewById(R.id.et_plate_ingredients);
         tvPlateInfo = (TextView) findViewById(R.id.tv_plate_info);
     }
+
+    public void showTimePicker(View view){
+        Calendar c = Calendar.getInstance();
+        new TimePickerDialog(PlatesActivity.this, onTimeSetListener, c.get(c.HOUR_OF_DAY),
+                c.get(c.MINUTE), true).show();
+    }
+
+    TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+            time = String.valueOf(hour) + ":" + String.valueOf(minute);
+        }
+    };
 
     public boolean validateInputs(){
         boolean valid = true;
@@ -58,6 +77,9 @@ public class PlatesActivity extends AppCompatActivity {
             Toast.makeText(this, "Type is necessary", Toast.LENGTH_SHORT).show();
             valid = false;
         }
+        if(time.equals("")){
+            valid = false;
+        }
         if(etPlateIngredients.getText().toString().equals("")){
             Toast.makeText(this, "Ingredients is necessary", Toast.LENGTH_SHORT).show();
             valid = false;
@@ -68,21 +90,22 @@ public class PlatesActivity extends AppCompatActivity {
     public void showData(View view){
         if(validateInputs()){
             String info = "";
-            info += etPlateName.getText().toString() + "\n";
-            info += "$ " + etPlatePrice.getText().toString() + "\n";
+            info += "Name: " + etPlateName.getText().toString() + "\n";
+            info += "Price: $ " + etPlatePrice.getText().toString() + "\n";
             if(cbPlateMorning.isChecked()){
-                info += "Morning \n";
+                info += "Timetable: Morning \n";
             } else if (cbPlateAfternoon.isChecked()){
-                info += "Afternoon \n";
+                info += "Timetable: Afternoon \n";
             } else {
-                info += "Night \n";
+                info += "Timetable: Night \n";
             }
             if(rbPlateEntrance.isChecked()){
-                info += "Entrance \n";
+                info += "Type dinner: Entrance \n";
             } else {
-                info += "Main menu \n";
+                info += "Type dinner: Main menu \n";
             }
-            info += etPlateIngredients.getText().toString();
+            info += "Preparation time: " + time + " hours\n";
+            info += "Ingredients: " + etPlateIngredients.getText().toString();
             tvPlateInfo.setText(info);
         } else {
             Toast.makeText(this, "Something was wrong!!!", Toast.LENGTH_SHORT).show();

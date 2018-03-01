@@ -89,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/rg_plate"
             android:layout_alignEnd="@+id/et_plate_price"
+            android:onClick="showTimePicker"
             android:text="@string/btn_plate_timer" />
 
         <EditText
