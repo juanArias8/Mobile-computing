@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,7 +10,106 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.75"
-        android:background="@color/colorLightPrimary">
+        android:background="@color/colorIconsText">
+
+        <EditText
+            android:id="@+id/txt_plate_name"
+            style="@android:style/Widget.Material.Light.EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/btn_add_plate_photo"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="@string/txt_plate_name"
+            android:inputType="text|textCapWords" />
+
+        <EditText
+            android:id="@+id/txt_plate_price"
+            style="@android:style/Widget.Material.Light.EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btn_add_plate_photo"
+            android:layout_alignStart="@+id/txt_plate_name"
+            android:ems="10"
+            android:hint="@string/txt_plate_price"
+            android:inputType="number" />
+
+        <CheckBox
+            android:id="@+id/cb_plate_morning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/btn_add_plate_photo"
+            android:layout_below="@+id/txt_plate_price"
+            android:layout_marginTop="25dp"
+            android:text="@string/cb_plate_morning" />
+
+        <CheckBox
+            android:id="@+id/cb_plate_afternoon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/radioGroup"
+            android:layout_centerHorizontal="true"
+            android:text="@string/cb_plate_afternoon" />
+
+        <CheckBox
+            android:id="@+id/cb_plate_night"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/cb_plate_afternoon"
+            android:layout_alignEnd="@+id/txt_plate_price"
+            android:text="@string/cb_plate_night" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/cb_plate_morning"
+            android:layout_below="@+id/cb_plate_morning"
+            android:layout_marginTop="27dp">
+
+            <RadioButton
+                android:id="@+id/rb_plate_entrance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/rb_plate_entrance" />
+
+            <RadioButton
+                android:id="@+id/rb_plate_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/rb_plate_main" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_plate_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/radioGroup"
+            android:layout_alignEnd="@+id/txt_plate_price"
+            android:text="@string/btn_plate_timer" />
+
+        <EditText
+            android:id="@+id/txt_plate_ingredients"
+            style="@android:style/Widget.Material.Light.EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="21dp"
+            android:ems="10"
+            android:hint="@string/txt_plate_ingredients"
+            android:inputType="text" />
+
+        <ImageButton
+            android:id="@+id/btn_add_plate_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            app:srcCompat="@android:drawable/ic_input_add" />
 
     </RelativeLayout>
 
@@ -17,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.25"
-        android:background="@color/colorDivider">
+        android:background="@color/colorLightPrimary">
 
     </RelativeLayout>
 
