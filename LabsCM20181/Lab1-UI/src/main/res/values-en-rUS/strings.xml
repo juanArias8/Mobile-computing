@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LabsCM20181</string>
+    <string name="tv_plates">Plates</string>
+    <string name="tv_drinks">Drinks</string>
+    <string name="tv_main">Do you know what you wanna order today?</string>
+</resources>
