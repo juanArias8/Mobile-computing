@@ -4,4 +4,21 @@
     <string name="tv_plates">Plates</string>
     <string name="tv_drinks">Drinks</string>
     <string name="tv_main">Do you know what you wanna order today?</string>
+    <string name="txt_plate_name">Name</string>
+    <string name="txt_plate_price">Price</string>
+    <string name="cb_plate_morning">Morning</string>
+    <string name="cb_plate_afternoon">Afternoon</string>
+    <string name="cb_plate_night">Nigth</string>
+    <string name="rb_plate_entrance">Entry</string>
+    <string name="rb_plate_main">Main Dish</string>
+    <string name="btn_plate_timer">Preparation Time</string>
+    <string name="txt_plate_ingredients">Ingredients</string>
+    <string name="txt_drink_name">Name</string>
+    <string name="txt_drink_price">Price</string>
+    <string name="txt_drink_ingredients">Ingredients</string>
+    <string name="iv_drink_add_image">Drink Photo</string>
+    <string name="button">Add  Drink Photo</string>
+    <string name="ib_plate_content_description">Plate Photo</string>
+    <string name="btn_plate_save">Save</string>
+    <string name="txt_plate_info">Information</string>
 </resources>
