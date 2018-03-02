@@ -10,58 +10,53 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.75"
-        android:background="@color/colorLightPrimary">
+        android:background="@color/colorIconsText">
 
         <EditText
-            android:id="@+id/txt_drink_price"
+            android:id="@+id/et_drink_price"
             style="@android:style/Widget.Material.Light.EditText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/iv_drink_add_image"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="13dp"
+            android:layout_alignStart="@+id/et_drink_name"
+            android:layout_below="@+id/et_drink_name"
+            android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="@string/txt_drink_price"
             android:inputType="number" />
 
-        <ImageView
-            android:id="@+id/iv_drink_add_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="45dp"
-            app:srcCompat="@android:drawable/ic_input_add" />
-
         <EditText
-            android:id="@+id/txt_drink_ingredients"
-            android:layout_width="wrap_content"
+            android:id="@+id/et_drink_ingredients"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/et_drink_price"
             android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/iv_drink_add_image"
+            android:layout_alignStart="@+id/et_drink_price"
+            android:layout_marginBottom="20dp"
             android:ems="10"
             android:hint="@string/txt_drink_ingredients"
             android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/editText5"
-            android:layout_width="wrap_content"
+            android:id="@+id/et_drink_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/txt_drink_price"
-            android:layout_alignTop="@+id/iv_drink_add_image"
+            android:layout_below="@+id/ib_drink_add_photo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="@string/txt_drink_name"
             android:inputType="textPersonName" />
 
-        <Button
-            android:id="@+id/btn_add_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/iv_drink_add_image"
-            android:layout_centerVertical="true"
-            android:text="Seleccionar Imagen"
-            android:onClick="onClick"/>
+
+        <ImageButton
+            android:id="@+id/ib_drink_add_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:onClick="ibLoadImage"
+            app:srcCompat="@android:drawable/ic_input_add" />
 
     </RelativeLayout>
 
@@ -69,8 +64,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.25"
-        android:background="@color/colorDivider">
+        android:background="@color/colorLightPrimary">
 
+        <ImageView
+            android:id="@+id/iv_drink_add_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="17dp"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
     </RelativeLayout>
 
 </LinearLayout>

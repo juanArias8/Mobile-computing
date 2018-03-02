@@ -10,33 +10,32 @@ import android.widget.ImageView;
 
 public class DrinksActivity extends AppCompatActivity {
 
-    ImageView imagen;
+    ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drinks);
 
-        imagen = (ImageView)findViewById(R.id.iv_drink_add_image);
-
+        image = (ImageView) findViewById(R.id.iv_drink_add_image);
     }
 
-    public void onClick(View view) {
-        cargarImagen();
+    public void ibLoadImage(View view) {
+        loadImage();
     }
 
-    private void cargarImagen(){
+    private void loadImage(){
         Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
-        startActivityForResult(intent.createChooser(intent,"Seleccione la aplicacion"),10);
+        startActivityForResult(intent.createChooser(intent,"Select an application"),10);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==RESULT_OK){
-            Uri path=data.getData();
-            imagen.setImageURI(path);
+        if (resultCode == RESULT_OK){
+            Uri path = data.getData();
+            image.setImageURI(path);
         }
     }
 }
