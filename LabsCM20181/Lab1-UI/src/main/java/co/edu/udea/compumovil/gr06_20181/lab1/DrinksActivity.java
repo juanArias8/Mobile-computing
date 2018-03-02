@@ -10,14 +10,14 @@ import android.widget.ImageView;
 
 public class DrinksActivity extends AppCompatActivity {
 
-    ImageView image;
+    ImageView ivDrinkImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drinks);
 
-        image = (ImageView) findViewById(R.id.iv_drink_add_image);
+        ivDrinkImage = (ImageView) findViewById(R.id.iv_drink_add_image);
     }
 
     public void ibLoadImage(View view) {
@@ -35,7 +35,7 @@ public class DrinksActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK){
             Uri path = data.getData();
-            image.setImageURI(path);
+            ivDrinkImage.setImageURI(path);
         }
     }
 }

@@ -1,12 +1,16 @@
 package co.edu.udea.compumovil.gr06_20181.lab1;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -26,6 +30,7 @@ public class PlatesActivity extends AppCompatActivity {
     private RadioButton rbPlateMain;
     private EditText etPlateIngredients;
     private TextView tvPlateInfo;
+    private ImageView ivPlateImage;
 
     private String time = "";
 
@@ -44,6 +49,7 @@ public class PlatesActivity extends AppCompatActivity {
         rbPlateMain = (RadioButton) findViewById(R.id.rb_plate_main);
         etPlateIngredients = (EditText) findViewById(R.id.et_plate_ingredients);
         tvPlateInfo = (TextView) findViewById(R.id.tv_plate_info);
+        ivPlateImage = (ImageView) findViewById(R.id.iv_plate_add_image);
     }
 
     public void showTimePicker(View view){
@@ -58,6 +64,27 @@ public class PlatesActivity extends AppCompatActivity {
             time = String.valueOf(hour) + ":" + String.valueOf(minute);
         }
     };
+
+    public void ibLoadImage(View view) {
+        Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/");
+        startActivityForResult(intent.createChooser(intent,"Select an application"),10);
+    }
+
+   /*private void loadImage(){
+        Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/");
+        startActivityForResult(intent.createChooser(intent,"Select an application"),10);
+    }*/
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            Uri path = data.getData();
+            ivPlateImage.setImageURI(path);
+        }
+    }
 
     public boolean validateInputs(){
         boolean valid = true;

@@ -111,6 +111,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:contentDescription="@string/ib_plate_content_description"
+            android:onClick="ibLoadImage"
             app:srcCompat="@android:drawable/ic_input_add" />
 
         <Button
@@ -135,9 +136,21 @@
             android:id="@+id/tv_plate_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
+            android:layout_marginStart="11dp"
+            android:layout_toEndOf="@+id/iv_plate_add_image"
             android:text="@string/txt_plate_info" />
+
+        <ImageView
+            android:id="@+id/iv_plate_add_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="11dp"
+            android:padding="15dp"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
     </RelativeLayout>
 
 </LinearLayout>
