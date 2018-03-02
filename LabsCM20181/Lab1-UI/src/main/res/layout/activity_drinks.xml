@@ -54,8 +54,8 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:contentDescription="@string/ib"
-            android:onClick="ibLoadImage"
+            android:contentDescription="@string/ib_drink_content_description"
+            android:onClick="ibLoadImageDrinks"
             app:srcCompat="@android:drawable/ic_input_add" />
 
         <Button
@@ -64,6 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/ib_drink_add_photo"
             android:layout_below="@+id/et_drink_ingredients"
+            android:onClick="resetInputsDrinks"
             android:text="@string/btn_drink_reset" />
 
         <Button
@@ -72,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/button3"
             android:layout_toStartOf="@+id/button3"
+            android:onClick="showDataDrinks"
             android:text="@string/btn_drink_save" />
 
         <Button
@@ -81,6 +83,7 @@
             android:layout_alignBaseline="@+id/button3"
             android:layout_alignBottom="@+id/button3"
             android:layout_toEndOf="@+id/button3"
+            android:onClick="exitDrinks"
             android:text="@string/btn_drink_exit" />
 
     </RelativeLayout>
@@ -98,10 +101,11 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="17dp"
+            android:contentDescription="@string/iv_drink_content_description"
             app:srcCompat="@android:drawable/ic_menu_gallery" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_drink_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -111,20 +115,20 @@
             android:text="@string/tv_drink_name" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tv_drink_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/tv_drink_name"
             android:layout_toEndOf="@+id/iv_drink_add_image"
             android:text="@string/tv_drink_price" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/tv_drink_ingredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/textView5"
+            android:layout_below="@+id/tv_drink_price"
             android:layout_toEndOf="@+id/iv_drink_add_image"
             android:text="@string/tv_drink_ingredients" />
     </RelativeLayout>

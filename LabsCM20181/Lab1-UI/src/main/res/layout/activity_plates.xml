@@ -111,7 +111,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:contentDescription="@string/ib_plate_content_description"
-            android:onClick="ibLoadImage"
+            android:onClick="ibLoadImagePlates"
             app:srcCompat="@android:drawable/ic_input_add" />
 
         <Button
@@ -121,7 +121,7 @@
             android:layout_alignBaseline="@+id/button"
             android:layout_alignBottom="@+id/button"
             android:layout_toStartOf="@+id/button"
-            android:onClick="showData"
+            android:onClick="showDataPlates"
             android:text="@string/btn_plate_save" />
 
         <Button
@@ -131,7 +131,7 @@
             android:layout_alignBaseline="@+id/button2"
             android:layout_alignBottom="@+id/button2"
             android:layout_centerHorizontal="true"
-            android:onClick="resetInputs"
+            android:onClick="resetInputsPlates"
             android:text="@string/btn_plate_reset" />
 
         <Button
@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/et_plate_ingredients"
             android:layout_toEndOf="@+id/button"
-            android:onClick="exit"
+            android:onClick="exitPlates"
             android:text="@string/btn_plate_exit" />
 
     </RelativeLayout>

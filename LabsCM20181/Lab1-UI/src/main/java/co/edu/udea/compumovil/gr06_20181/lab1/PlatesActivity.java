@@ -77,7 +77,7 @@ public class PlatesActivity extends AppCompatActivity {
         }
     };
 
-    public void ibLoadImage(View view) {
+    public void ibLoadImagePlates(View view) {
         Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
         startActivityForResult(intent.createChooser(intent,"Select an application"),10);
@@ -92,7 +92,7 @@ public class PlatesActivity extends AppCompatActivity {
         }
     }
 
-    public boolean validateInputs(){
+    public boolean validateInputsPlates(){
         boolean valid = true;
         if(path == null){
             Toast.makeText(this, "Photo is necessary", Toast.LENGTH_SHORT).show();
@@ -124,8 +124,8 @@ public class PlatesActivity extends AppCompatActivity {
         return valid;
     }
 
-    public void showData(View view){
-        if(validateInputs()){
+    public void showDataPlates(View view){
+        if(validateInputsPlates()){
             tvPlateName.setText(String.format("%s %s", tvPlateName.getText(),
                     etPlateName.getText()));
             tvPlatePrice.setText(String.format("%s %s", tvPlatePrice.getText(),
@@ -158,7 +158,7 @@ public class PlatesActivity extends AppCompatActivity {
         }
     }
 
-    public void resetInputs(View view){
+    public void resetInputsPlates(View view){
         path = null;
         etPlateName.setText("");
         etPlatePrice.setText("");
@@ -177,7 +177,7 @@ public class PlatesActivity extends AppCompatActivity {
         tvPlateIngredients.setText(R.string.tv_plate_ingredients);
     }
 
-    public void exit(View view){
+    public void exitPlates(View view){
         finish();
     }
 }

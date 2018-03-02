@@ -2,7 +2,7 @@
     <string name="app_name">LabsCM20181</string>
     <string name="tv_plates">Platos</string>
     <string name="tv_drinks">Bebidas</string>
-    <string name="tv_main">¿Ya sabes qué deseas ordenar hoy?</string>
+    <string name="tv_main">¿Ya sabes qué deseas agregar hoy?</string>
 
     <string name="txt_plate_name">Nombre</string>
     <string name="txt_plate_price">Precio</string>
