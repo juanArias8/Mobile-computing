@@ -30,7 +30,9 @@
     <string name="txt_drink_price">Precio</string>
     <string name="txt_drink_ingredients">Ingredientes</string>
     <string name="iv_drink_add_image">Foto de la bebida</string>
-    <string name="button">Agregar Foto de la Bebida</string>
+    <string name="btn_drink_save">Guardar</string>
+    <string name="btn_drink_reset">Limpiar</string>
+    <string name="btn_drink_exit">Salir</string>
 
     <string name="tv_drink_name">Nombre: </string>
     <string name="tv_drink_price">Price: </string>
