@@ -20,7 +20,6 @@ import java.util.Calendar;
 
 public class PlatesActivity extends AppCompatActivity {
 
-    private ImageButton ibPlateAddPhoto;
     private EditText etPlateName;
     private EditText etPlatePrice;
     private CheckBox cbPlateMorning;
@@ -29,17 +28,24 @@ public class PlatesActivity extends AppCompatActivity {
     private RadioButton rbPlateEntrance;
     private RadioButton rbPlateMain;
     private EditText etPlateIngredients;
-    private TextView tvPlateInfo;
     private ImageView ivPlateImage;
 
+    private TextView tvPlateName;
+    private TextView tvPlatePrice;
+    private TextView tvPlateTimetable;
+    private TextView tvPlateType;
+    private TextView tvPlateTime;
+    private TextView tvPlateIngredients;
+
     private String time = "";
+
+    private Uri path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plates);
 
-        ibPlateAddPhoto = (ImageButton) findViewById(R.id.ib_plate_add_photo);
         etPlateName = (EditText) findViewById(R.id.et_plate_name);
         etPlatePrice = (EditText) findViewById(R.id.et_plate_price);
         cbPlateMorning = (CheckBox) findViewById(R.id.cb_plate_morning);
@@ -48,8 +54,14 @@ public class PlatesActivity extends AppCompatActivity {
         rbPlateEntrance = (RadioButton) findViewById(R.id.rb_plate_entrance);
         rbPlateMain = (RadioButton) findViewById(R.id.rb_plate_main);
         etPlateIngredients = (EditText) findViewById(R.id.et_plate_ingredients);
-        tvPlateInfo = (TextView) findViewById(R.id.tv_plate_info);
         ivPlateImage = (ImageView) findViewById(R.id.iv_plate_add_image);
+
+        tvPlateName = (TextView) findViewById(R.id.tv_plate_name);
+        tvPlatePrice = (TextView) findViewById(R.id.tv_plate_price);
+        tvPlateTimetable = (TextView) findViewById(R.id.tv_plate_timetable);
+        tvPlateType = (TextView) findViewById(R.id.tv_plate_type);
+        tvPlateTime = (TextView) findViewById(R.id.tv_plate_time);
+        tvPlateIngredients = (TextView) findViewById(R.id.tv_plate_ingredients);
     }
 
     public void showTimePicker(View view){
@@ -71,23 +83,21 @@ public class PlatesActivity extends AppCompatActivity {
         startActivityForResult(intent.createChooser(intent,"Select an application"),10);
     }
 
-   /*private void loadImage(){
-        Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/");
-        startActivityForResult(intent.createChooser(intent,"Select an application"),10);
-    }*/
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK){
-            Uri path = data.getData();
+            path = data.getData();
             ivPlateImage.setImageURI(path);
         }
     }
 
     public boolean validateInputs(){
         boolean valid = true;
+        if(path == null){
+            Toast.makeText(this, "Photo is necessary", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
         if(etPlateName.getText().toString().equals("")) {
             Toast.makeText(this, "Name is necessary", Toast.LENGTH_SHORT).show();
             valid = false;
@@ -116,26 +126,39 @@ public class PlatesActivity extends AppCompatActivity {
 
     public void showData(View view){
         if(validateInputs()){
-            String info = "";
-            info += "Name: " + etPlateName.getText().toString() + "\n";
-            info += "Price: $ " + etPlatePrice.getText().toString() + "\n";
+            tvPlateName.setText(String.format("%s %s", tvPlateName.getText(),
+                    etPlateName.getText()));
+            tvPlatePrice.setText(String.format("%s %s", tvPlatePrice.getText(),
+                    etPlatePrice.getText()));
             if(cbPlateMorning.isChecked()){
-                info += "Timetable: Morning \n";
-            } else if (cbPlateAfternoon.isChecked()){
-                info += "Timetable: Afternoon \n";
-            } else {
-                info += "Timetable: Night \n";
+                tvPlateTimetable.setText(String.format("%s %s", tvPlateTimetable.getText(),
+                        cbPlateMorning.getText()));
+            }
+            if (cbPlateAfternoon.isChecked()){
+                tvPlateTimetable.setText(String.format("%s %s", tvPlateTimetable.getText(),
+                        cbPlateAfternoon.getText()));
+            }
+            if(cbPlateNight.isChecked()){
+                tvPlateTimetable.setText(String.format("%s %s", tvPlateTimetable.getText(),
+                        cbPlateNight.getText()));
             }
             if(rbPlateEntrance.isChecked()){
-                info += "Type dinner: Entrance \n";
+                tvPlateType.setText(String.format("%s %s", tvPlateType.getText(),
+                        rbPlateEntrance.getText()));
             } else {
-                info += "Type dinner: Main menu \n";
+                tvPlateType.setText(String.format("%s %s", tvPlateType.getText(),
+                        rbPlateMain.getText()));
             }
-            info += "Preparation time: " + time + " hours\n";
-            info += "Ingredients: " + etPlateIngredients.getText().toString();
-            tvPlateInfo.setText(info);
+            tvPlateTime.setText(String.format("%s %s %s", tvPlateTime.getText(), time, "hours"));
+            tvPlateIngredients.setText(String.format("%s %s", tvPlateIngredients.getText(),
+                    etPlateIngredients.getText()));
+
         } else {
             Toast.makeText(this, "Something was wrong!!!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void resetInputs(View view){
+
     }
 }

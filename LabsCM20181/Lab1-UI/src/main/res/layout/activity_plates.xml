@@ -118,11 +118,28 @@
             android:id="@+id/btn_plate_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/et_plate_ingredients"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
+            android:layout_alignBaseline="@+id/button"
+            android:layout_alignBottom="@+id/button"
+            android:layout_toStartOf="@+id/button"
             android:onClick="showData"
             android:text="@string/btn_plate_save" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/button2"
+            android:layout_alignBottom="@+id/button2"
+            android:layout_centerHorizontal="true"
+            android:text="@string/btn_plate_reset" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_plate_ingredients"
+            android:layout_toEndOf="@+id/button"
+            android:text="@string/btn_plate_exit" />
 
     </RelativeLayout>
 
@@ -132,15 +149,6 @@
         android:layout_weight="0.25"
         android:background="@color/colorLightPrimary">
 
-        <TextView
-            android:id="@+id/tv_plate_info"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="11dp"
-            android:layout_toEndOf="@+id/iv_plate_add_image"
-            android:text="@string/txt_plate_info" />
-
         <ImageView
             android:id="@+id/iv_plate_add_image"
             android:layout_width="100dp"
@@ -149,8 +157,64 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="11dp"
             android:layout_marginTop="11dp"
+            android:contentDescription="@string/iv_plate_content_description"
             android:padding="15dp"
             app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+        <TextView
+            android:id="@+id/tv_plate_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/iv_plate_add_image"
+            android:layout_marginStart="18dp"
+            android:layout_toEndOf="@+id/iv_plate_add_image"
+            android:text="@string/tv_plate_name" />
+
+        <TextView
+            android:id="@+id/tv_plate_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/tv_plate_name"
+            android:layout_below="@+id/tv_plate_name"
+            android:text="@string/tv_plate_price" />
+
+        <TextView
+            android:id="@+id/tv_plate_timetable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/tv_plate_price"
+            android:layout_below="@+id/tv_plate_price"
+            android:text="@string/tv_plate_timetable" />
+
+        <TextView
+            android:id="@+id/tv_plate_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/tv_plate_timetable"
+            android:layout_below="@+id/tv_plate_timetable"
+            android:text="@string/tv_plate_type" />
+
+        <TextView
+            android:id="@+id/tv_plate_ingredients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/tv_plate_time"
+            android:layout_below="@+id/tv_plate_time"
+            android:text="@string/tv_plate_ingredients" />
+
+        <TextView
+            android:id="@+id/tv_plate_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/tv_plate_type"
+            android:layout_below="@+id/tv_plate_type"
+            android:text="@string/tv_plate_time" />
     </RelativeLayout>
 
 </LinearLayout>

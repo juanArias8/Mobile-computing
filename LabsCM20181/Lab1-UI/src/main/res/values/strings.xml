@@ -3,6 +3,7 @@
     <string name="tv_plates">Platos</string>
     <string name="tv_drinks">Bebidas</string>
     <string name="tv_main">¿Ya sabes qué deseas ordenar hoy?</string>
+
     <string name="txt_plate_name">Nombre</string>
     <string name="txt_plate_price">Precio</string>
     <string name="cb_plate_morning">Mañana</string>
@@ -14,11 +15,24 @@
     <string name="txt_plate_ingredients">Ingredientes</string>
     <string name="ib_plate_content_description">Foto del plato</string>
     <string name="btn_plate_save">Guardar</string>
-    <string name="txt_plate_info">Información</string>
+    <string name="btn_plate_reset">Limpiar</string>
+    <string name="btn_plate_exit">Salir</string>
+
+    <string name="iv_plate_content_description">Foto cargada</string>
+    <string name="tv_plate_name">Nombre: </string>
+    <string name="tv_plate_price">Precio COP: </string>
+    <string name="tv_plate_timetable">Horario: </string>
+    <string name="tv_plate_type">Tipo: </string>
+    <string name="tv_plate_time">Tiempo: </string>
+    <string name="tv_plate_ingredients">Ingredientes: </string>
 
     <string name="txt_drink_name">Nombre</string>
     <string name="txt_drink_price">Precio</string>
     <string name="txt_drink_ingredients">Ingredientes</string>
     <string name="iv_drink_add_image">Foto de la bebida</string>
     <string name="button">Agregar Foto de la Bebida</string>
+
+    <string name="tv_drink_name">Nombre: </string>
+    <string name="tv_drink_price">Price: </string>
+    <string name="tv_drink_ingredients">Ingredientes: </string>
 </resources>
