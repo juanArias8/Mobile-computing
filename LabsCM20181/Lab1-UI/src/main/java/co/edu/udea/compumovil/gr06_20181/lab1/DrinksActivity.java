@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 public class DrinksActivity extends AppCompatActivity {
 
+    private static final String DRINK_NAME = "";
+    private static final String DRINK_PRICE = "";
+    private static final String DRINK_INGREDIENTS = "";
+
     private EditText etDrinkName;
     private EditText etDrinkPrice;
     private EditText etDrinkIngredients;
@@ -21,7 +25,7 @@ public class DrinksActivity extends AppCompatActivity {
     private TextView tvDrinkIngredients;
     private ImageView ivDrinkImage;
 
-    private Uri path;
+    private Uri path = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +40,16 @@ public class DrinksActivity extends AppCompatActivity {
         tvDrinkPrice = (TextView) findViewById(R.id.tv_drink_price);
         tvDrinkIngredients = (TextView) findViewById(R.id.tv_drink_ingredients);
         ivDrinkImage = (ImageView) findViewById(R.id.iv_drink_add_image);
+
+        if(savedInstanceState != null){
+            etDrinkName.setText(savedInstanceState.getString(DRINK_NAME));
+            etDrinkPrice.setText(savedInstanceState.getString(DRINK_PRICE));
+            etDrinkIngredients.setText(savedInstanceState.getString(DRINK_INGREDIENTS));
+        }
     }
 
     public void ibLoadImageDrinks(View view) {
-        Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
         startActivityForResult(intent.createChooser(intent,"Select an application"),10);
     }
@@ -104,5 +114,14 @@ public class DrinksActivity extends AppCompatActivity {
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        outState.putString(DRINK_NAME, etDrinkName.getText().toString());
+        outState.putString(DRINK_PRICE, etDrinkPrice.getText().toString());
+        outState.putString(DRINK_INGREDIENTS, etDrinkIngredients.getText().toString());
+
+        super.onSaveInstanceState(outState);
     }
 }

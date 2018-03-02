@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -19,6 +18,16 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 public class PlatesActivity extends AppCompatActivity {
+
+    private static final String PLATE_NAME = "";
+    private static final String PLATE_PRICE = "";
+    private static final String PLATE_MORNING = "";
+    private static final String PLATE_AFTERNOON = "";
+    private static final String PLATE_NIGHT = "";
+    private static final String PLATE_ENTRANCE = "";
+    private static final String PLATE_MAIN = "";
+    private static final String PLATE_TIME = "";
+    private static final String PLATE_INGREDIENTS = "";
 
     private EditText etPlateName;
     private EditText etPlatePrice;
@@ -39,11 +48,12 @@ public class PlatesActivity extends AppCompatActivity {
 
     private String time = "";
 
-    private Uri path;
+    private Uri path = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_plates);
 
         etPlateName = (EditText) findViewById(R.id.et_plate_name);
@@ -62,6 +72,18 @@ public class PlatesActivity extends AppCompatActivity {
         tvPlateType = (TextView) findViewById(R.id.tv_plate_type);
         tvPlateTime = (TextView) findViewById(R.id.tv_plate_time);
         tvPlateIngredients = (TextView) findViewById(R.id.tv_plate_ingredients);
+
+        if(savedInstanceState != null){
+            etPlateName.setText(savedInstanceState.getString(PLATE_NAME));
+            etPlatePrice.setText(savedInstanceState.getString(PLATE_PRICE));
+            cbPlateMorning.setChecked(savedInstanceState.getBoolean(PLATE_MORNING));
+            cbPlateAfternoon.setChecked(savedInstanceState.getBoolean(PLATE_AFTERNOON));
+            cbPlateNight.setChecked(savedInstanceState.getBoolean(PLATE_ENTRANCE));
+            rbPlateEntrance.setChecked(savedInstanceState.getBoolean(PLATE_MORNING));
+            rbPlateMain.setChecked(savedInstanceState.getBoolean(PLATE_MAIN));
+            time = savedInstanceState.getString(PLATE_TIME);
+            etPlateIngredients.setText(savedInstanceState.getString(PLATE_INGREDIENTS));
+        }
     }
 
     public void showTimePicker(View view){
@@ -78,7 +100,7 @@ public class PlatesActivity extends AppCompatActivity {
     };
 
     public void ibLoadImagePlates(View view) {
-        Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
         startActivityForResult(intent.createChooser(intent,"Select an application"),10);
     }
@@ -183,5 +205,20 @@ public class PlatesActivity extends AppCompatActivity {
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        outState.putString(PLATE_NAME, etPlateName.getText().toString());
+        outState.putString(PLATE_PRICE, etPlatePrice.getText().toString());
+        outState.putBoolean(PLATE_MORNING, cbPlateMorning.isChecked());
+        outState.putBoolean(PLATE_AFTERNOON, cbPlateAfternoon.isChecked());
+        outState.putBoolean(PLATE_NIGHT, cbPlateNight.isChecked());
+        outState.putBoolean(PLATE_ENTRANCE, rbPlateEntrance.isChecked());
+        outState.putBoolean(PLATE_MAIN, rbPlateMain.isChecked());
+        outState.putString(PLATE_INGREDIENTS, etPlateIngredients.getText().toString());
+        outState.putString(PLATE_TIME, time);
+
+        super.onSaveInstanceState(outState);
     }
 }

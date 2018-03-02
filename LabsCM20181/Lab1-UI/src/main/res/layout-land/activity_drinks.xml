@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="10dp" android:baselineAligned="false">
 
     <RelativeLayout
         android:layout_width="0dp"
@@ -31,7 +31,7 @@
             android:layout_below="@+id/et_drink_price"
             android:ems="10"
             android:hint="@string/txt_drink_ingredients"
-            android:inputType="textPersonName" />
+            android:inputType="text|textMultiLine" />
 
         <EditText
             android:id="@+id/et_drink_name"
@@ -41,7 +41,7 @@
             android:layout_below="@+id/ib_drink_add_photo"
             android:ems="10"
             android:hint="@string/txt_drink_name"
-            android:inputType="textPersonName" />
+            android:inputType="text|textCapSentences" />
 
 
         <ImageButton
