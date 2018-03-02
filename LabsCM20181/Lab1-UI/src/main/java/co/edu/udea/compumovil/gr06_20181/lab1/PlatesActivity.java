@@ -159,6 +159,25 @@ public class PlatesActivity extends AppCompatActivity {
     }
 
     public void resetInputs(View view){
+        path = null;
+        etPlateName.setText("");
+        etPlatePrice.setText("");
+        cbPlateMorning.setChecked(false);
+        cbPlateAfternoon.setChecked(false);
+        cbPlateNight.setChecked(false);
+        rbPlateEntrance.setChecked(false);
+        rbPlateMain.setChecked(false);
+        etPlateIngredients.setText("");
+        ivPlateImage.setImageURI(path);
+        tvPlateName.setText(R.string.tv_plate_name);
+        tvPlatePrice.setText(R.string.tv_plate_price);
+        tvPlateTimetable.setText(R.string.tv_plate_timetable);
+        tvPlateType.setText(R.string.tv_plate_time);
+        tvPlateTime.setText(R.string.tv_plate_time);
+        tvPlateIngredients.setText(R.string.tv_plate_ingredients);
+    }
 
+    public void exit(View view){
+        finish();
     }
 }
