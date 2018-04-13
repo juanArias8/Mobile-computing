@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Lab2Activities</string>
+
+    <!-- Strings related to Register or Sign in-->
+    <string name="txt_email">Correo</string>
+    <string name="txt_password">Contraseña</string>
+    <string name="txt_confirm_password">Confirmar contraseña</string>
+
+    <!-- Strings related to Register-->
+    <string name="tv_title">Registro Nuevo Usuario</string>
+    <string name="ib_user_content_description">Foto del usuario</string>
+    <string name="txt_user_name">Nombres</string>
+    <string name="btn_sign_up">Completar Registro</string>
+    <string name="action_sign_in_login">Ya tienes una cuenta? <b>Ingresa</b></string>
+
+    <!-- Strings related to login -->
+    <string name="btn_sign_in">Ingresar</string>
+    <string name="action_log_in_signup">No tienes una cuenta? <b>Registrate</b></string>
+
+
+</resources>
