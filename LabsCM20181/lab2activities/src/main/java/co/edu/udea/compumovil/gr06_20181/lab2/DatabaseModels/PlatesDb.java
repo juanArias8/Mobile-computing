@@ -10,10 +10,8 @@ public class PlatesDb {
     public class Column{
         public static final String ID = BaseColumns._ID;
         public static final String NAME = "name";
-        public static final String TIMETABLE = "timetable";
         public static final String KIND = "kind";
         public static final String PREPARATION_TIME = "preparationTime";
-        public static final String INGREDIENTS = "ingredients";
         public static final String PRICE = "price";
         public static final String PHOTO = "photo";
     }

@@ -3,13 +3,11 @@ package co.edu.udea.compumovil.gr06_20181.lab2.Models;
 public class DrinkModel {
     private byte[] photo;
     private String name;
-    private String ingredients;
     private double price;
 
-    public DrinkModel(byte[] photo, String name, String ingredients, double price) {
+    public DrinkModel(byte[] photo, String name, double price) {
         this.photo = photo;
         this.name = name;
-        this.ingredients = ingredients;
         this.price = price;
     }
 
@@ -27,14 +25,6 @@ public class DrinkModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(String ingredients) {
-        this.ingredients = ingredients;
     }
 
     public double getPrice() {

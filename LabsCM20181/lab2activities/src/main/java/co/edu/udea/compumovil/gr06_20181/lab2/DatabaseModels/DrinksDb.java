@@ -10,7 +10,6 @@ public class DrinksDb {
     public class Column{
         public static final String ID = BaseColumns._ID;
         public static final String NAME = "name";
-        public static final String INGREDIENTS = "ingredients";
         public static final String PRICE = "price";
         public static final String PHOTO = "photo";
     }
