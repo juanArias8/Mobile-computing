@@ -37,6 +37,15 @@
     <string name="nav_item_logout">Log out</string>
     <string name="nav_item_about">About</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Add item plates -->
+    <string name="add_plate_et_name">Type plate name</string>
+    <string name="add_plate_et_kind">type plate type</string>
+    <string name="add_plate_et_price">Type plate price</string>
+    <string name="add_plate_btn_time">Add time</string>
+    <string name="add_plate_btn_add">Add plate</string>
+
+    <!-- Add item drinks -->
+    <string name="add_drink_et_name">Type drink name</string>
+    <string name="add_drink_et_price">Type drink price</string>
+    <string name="add_drink_btn_add">Add drink</string>
 </resources>

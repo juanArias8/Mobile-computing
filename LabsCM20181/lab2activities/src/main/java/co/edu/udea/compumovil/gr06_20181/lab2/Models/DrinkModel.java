@@ -1,14 +1,14 @@
 package co.edu.udea.compumovil.gr06_20181.lab2.Models;
 
 public class DrinkModel {
-    private byte[] photo;
     private String name;
     private double price;
+    private byte[] photo;
 
-    public DrinkModel(byte[] photo, String name, double price) {
-        this.photo = photo;
+    public DrinkModel(String name, double price, byte[] photo) {
         this.name = name;
         this.price = price;
+        this.photo = photo;
     }
 
     public byte[] getPhoto() {

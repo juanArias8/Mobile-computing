@@ -1,12 +1,10 @@
 package co.edu.udea.compumovil.gr06_20181.lab2;
 
-import android.app.Fragment;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
@@ -23,23 +21,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import co.edu.udea.compumovil.gr06_20181.lab2.DbHelpers.DbUsersHelper;
+import co.edu.udea.compumovil.gr06_20181.lab2.DbHelpers.DbHelper;
 import co.edu.udea.compumovil.gr06_20181.lab2.Models.UserModel;
 
 public class AppActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static DbUsersHelper dbUsersHelper;
+    private static DbHelper dbHelper;
 
-    public UserModel user = null;
+    private UserModel user = null;
 
-    public NavigationView navigationView = null;
-    public Toolbar toolbar = null;
-    public Bundle args = null;
-
-    public String email = "";
+    protected NavigationView navigationView = null;
+    protected Toolbar toolbar = null;
 
     protected ImageView ivPhoto;
     protected TextView tvName;
@@ -50,6 +43,8 @@ public class AppActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
 
+        dbHelper = new DbHelper(this);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -57,8 +52,12 @@ public class AppActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AddItemFragment fragment = new AddItemFragment();
+                android.support.v4.app.FragmentTransaction fragmentTransaction =
+                        getSupportFragmentManager().beginTransaction();
+
+                fragmentTransaction.replace(R.id.fragments_container, fragment);
+                fragmentTransaction.commit();
             }
         });
 
@@ -77,34 +76,24 @@ public class AppActivity extends AppCompatActivity
         tvName = (TextView) headerView.findViewById(R.id.nav_tv_name);
         tvEmail = (TextView) headerView.findViewById(R.id.nav_tv_email);
 
-        dbUsersHelper = new DbUsersHelper(this);
-
-        String name_response;
-        String email_response;
-        String password_response;
-        String state_response;
-        byte [] photo_response = null;
-        Bitmap bitmap;
-        Cursor cursor;
-
         // Recuperate intent data
         try {
-            email = getIntent().getExtras().getString("email");
+            String email = getIntent().getExtras().getString("email");
             Log.d("Email from login ==> ", email);
-            cursor = dbUsersHelper.getDataByEmail(email);
+            Cursor cursor = dbHelper.getUserByEmail(email);
             if(cursor.moveToNext()){
-                name_response = cursor.getString(0);
-                email_response = cursor.getString(1);
-                password_response = cursor.getString(2);
-                photo_response = cursor.getBlob(3);
-                state_response = cursor.getString(4);
+                String nameResponse = cursor.getString(1);
+                String emailResponse = cursor.getString(2);
+                String passwordResponse = cursor.getString(3);
+                String stateResponse = cursor.getString(4);
+                byte[] photoResponse = cursor.getBlob(5);
 
-                user = new UserModel(photo_response, name_response,
-                        email_response, password_response, state_response);
+                user = new UserModel(nameResponse, emailResponse, passwordResponse,
+                        stateResponse, photoResponse);
             }
 
             try {
-                bitmap = BitmapFactory.decodeByteArray(user.getPhoto(), 0, user.getPhoto().length);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(user.getPhoto(), 0, user.getPhoto().length);
                 RoundedBitmapDrawable roundedBitmapDrawable =
                         RoundedBitmapDrawableFactory.create(getResources(), bitmap);
 
@@ -177,16 +166,22 @@ public class AppActivity extends AppCompatActivity
         android.support.v4.app.Fragment fragment = null;
 
         if (id == R.id.nav_item_plates) {
+
             fragment = new PlatesFragment();
+
         } else if (id == R.id.nav_item_drinks) {
+
             fragment = new DrinksFragment();
+
         } else if (id == R.id.nav_item_profile) {
+
             Bundle bundle = new Bundle();
             bundle.putString("name", user.getName());
             bundle.putString("email",user.getEmail());
             bundle.putByteArray("photo", user.getPhoto());
             fragment = new ProfileFragment();
             fragment.setArguments(bundle);
+
         } else if (id == R.id.nav_item_settings) {
 
         } else if (id == R.id.nav_item_about) {

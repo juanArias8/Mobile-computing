@@ -1,13 +1,13 @@
 package co.edu.udea.compumovil.gr06_20181.lab2.Models;
 
 public class UserModel {
-    private byte[] photo;
     private String name;
     private String email;
     private String password;
     private String state;
+    private byte[] photo;
 
-    public UserModel( byte[] photo, String name, String email, String password, String state) {
+    public UserModel(String name, String email, String password, String state, byte[] photo) {
         this.photo = photo;
         this.name = name;
         this.email = email;

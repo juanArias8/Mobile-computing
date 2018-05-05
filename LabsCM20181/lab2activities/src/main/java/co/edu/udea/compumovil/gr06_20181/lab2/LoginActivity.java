@@ -9,11 +9,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import co.edu.udea.compumovil.gr06_20181.lab2.DbHelpers.DbUsersHelper;
+import co.edu.udea.compumovil.gr06_20181.lab2.DbHelpers.DbHelper;
+import co.edu.udea.compumovil.gr06_20181.lab2.Models.UserModel;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static DbUsersHelper dbUsersHelper;
+    private static DbHelper dbHelper;
 
     private EditText etEmail;
     private EditText etPassword;
@@ -25,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
 
         init();
 
-        dbUsersHelper = new DbUsersHelper(this);
+        dbHelper = new DbHelper(this);
     }
 
     private void init(){
@@ -35,38 +36,39 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view){
         if(validateFields()){
-            String email;
-            String password;
-            int id_response;
-            String email_response;
-            String password_response;
-            String state_response;
+            String email = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
 
-            Cursor cursor;
+            Cursor cursor = dbHelper.getUserByEmail(email);
 
-            email = etEmail.getText().toString().trim();
-            password = etPassword.getText().toString().trim();
-
-            cursor = dbUsersHelper.searchUser(email);
             if(cursor.moveToNext()){
-                email_response = cursor.getString(0);
-                password_response = cursor.getString(1);
-                state_response = cursor.getString(2);
+                Log.e("Cursor ==> ", "Entra al if");
+                String nameResponse = cursor.getString(1);
+                String emailResponse = cursor.getString(2);
+                String passwordResponse = cursor.getString(3);
+                String stateResponse = cursor.getString(4);
+                byte[] photoResponse = cursor.getBlob(5);
 
-                if(email.equals(email_response)){
-                    if(password.equals(password_response)){
-                        if(state_response.equals("0")){
-                            state_response = "1";
-                            Log.d("email ==> " , email_response);
-                            Log.d("password ==> " , password_response);
-                            Log.d("State ==> ", state_response);
+                if(email.equals(emailResponse)){
+                    if(password.equals(passwordResponse)){
+                        if(stateResponse.equals("0")){
+                            stateResponse = "1";
 
-                            dbUsersHelper.updateState(email_response, state_response);
+                            UserModel user = new UserModel(nameResponse, emailResponse,
+                                    passwordResponse, stateResponse, photoResponse);
+
+                            Log.d("email ==> " , emailResponse);
+                            Log.d("password ==> " , passwordResponse);
+                            Log.d("State ==> ", stateResponse);
+
+                            dbHelper.updateUserState(user);
                         }
+
                         Toast.makeText(this, "User entered", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, AppActivity.class);
                         intent.putExtra("email", email);
                         startActivity(intent);
+
                     } else {
                         Toast.makeText(this, "Wrong password", Toast.LENGTH_SHORT).show();
                     }
@@ -82,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public boolean validateFields(){
+    private boolean validateFields(){
         if(etEmail.getText().toString().equals("") || etPassword.getText().toString().equals("")){
 
             Toast.makeText(this, "All input fields are required", Toast.LENGTH_SHORT).show();

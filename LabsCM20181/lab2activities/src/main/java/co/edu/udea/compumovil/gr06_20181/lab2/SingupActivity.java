@@ -19,12 +19,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import co.edu.udea.compumovil.gr06_20181.lab2.DbHelpers.DbUsersHelper;
+import co.edu.udea.compumovil.gr06_20181.lab2.DbHelpers.DbHelper;
+import co.edu.udea.compumovil.gr06_20181.lab2.Models.UserModel;
 
 public class SingupActivity extends AppCompatActivity {
 
-    public static DbUsersHelper dbUsersHelper;
-    protected final int REQUEST_CODE_GALLERY = 999;
+    private static DbHelper dbHelper;
+    private final int REQUEST_CODE_GALLERY = 999;
 
     private ImageView ivPhoto;
     private EditText etName;
@@ -38,7 +39,29 @@ public class SingupActivity extends AppCompatActivity {
 
         init();
 
-        dbUsersHelper = new DbUsersHelper(this);
+        dbHelper = new DbHelper(this);
+    }
+
+    public void singUp(View view){
+        if(validateFields()){
+            String name = etName.getText().toString().trim();
+            String email = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
+            String state = "0";
+            byte[] image = imageViewToByte(ivPhoto);
+
+            UserModel user = new UserModel(name, email, password, state, image);
+
+            try {
+                dbHelper.saveUser(user);
+                Toast.makeText(this, String.format("user %s added successfully", name),
+                        Toast.LENGTH_SHORT).show();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+            redirectToLogin();
+        }
     }
 
     private void init(){
@@ -48,7 +71,7 @@ public class SingupActivity extends AppCompatActivity {
         ivPhoto = (ImageView) findViewById(R.id.sing_iv_user);
     }
 
-    public void ivPhotoLoadPhoto(View view) {
+    protected void ivPhotoLoadPhoto(View view) {
         ActivityCompat.requestPermissions(
                 SingupActivity.this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
@@ -91,33 +114,14 @@ public class SingupActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void singUp(View view){
-        if(validateFields()){
-            String name = etName.getText().toString().trim();
-            String email = etEmail.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
-            byte[] image = imageViewToByte(ivPhoto);
-
-            try {
-                dbUsersHelper.insertData(name, email, password, image, "0");
-                Toast.makeText(this, String.format("user %s added successfully", name),
-                        Toast.LENGTH_SHORT).show();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-
-            redirectToLogin();
-        }
-    }
-
-    public byte[] imageViewToByte(ImageView image){
+    private byte[] imageViewToByte(ImageView image){
         Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();
     }
 
-    public boolean validateFields(){
+    private boolean validateFields(){
         if(etName.getText().toString().equals("")
                 || etEmail.getText().toString().equals("")
                 || etPassword.getText().toString().equals("")){
@@ -128,7 +132,7 @@ public class SingupActivity extends AppCompatActivity {
         return true;
     }
 
-    public void redirectToLogin(){
+    private void redirectToLogin(){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }

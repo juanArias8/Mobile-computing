@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import co.edu.udea.compumovil.gr06_20181.lab2.Adapters.RecyclerPlatesAdapter;
-import co.edu.udea.compumovil.gr06_20181.lab2.DbHelpers.DbPlatesHelper;
+import co.edu.udea.compumovil.gr06_20181.lab2.DbHelpers.DbHelper;
 import co.edu.udea.compumovil.gr06_20181.lab2.Models.PlateModel;
 
 
@@ -22,8 +22,8 @@ import co.edu.udea.compumovil.gr06_20181.lab2.Models.PlateModel;
  */
 public class PlatesFragment extends Fragment {
 
-    public static DbPlatesHelper dbPlatesHelper;
-    public ArrayList<PlateModel> plates;
+    private static DbHelper dbHelper;
+    protected ArrayList<PlateModel> plates;
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -41,7 +41,7 @@ public class PlatesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_plates, container, false);
 
-        dbPlatesHelper = new DbPlatesHelper(getContext());
+        dbHelper = new DbHelper(getActivity());
 
         plates = initializeData();
 
@@ -60,23 +60,24 @@ public class PlatesFragment extends Fragment {
         ArrayList<PlateModel> plates = new ArrayList<>();
         Cursor cursor;
 
-        String name;
-        String kind;
-        String preparationTime;
-        double price;
-        byte[] photo;
+        String nameResponse;
+        String kindResponse;
+        String preparationTimeResponse;
+        double priceResponse;
+        byte[] photoResponse;
 
-        cursor = dbPlatesHelper.getData();
+        cursor = dbHelper.getAllPlates();
 
         if(cursor != null){
             while(cursor.moveToNext()) {
-                name = cursor.getString(1);
-                kind = cursor.getString(2);
-                price = cursor.getDouble(3);
-                preparationTime = cursor.getString(4);
-                photo = cursor.getBlob(5);
+                nameResponse = cursor.getString(1);
+                kindResponse = cursor.getString(2);
+                preparationTimeResponse = cursor.getString(3);
+                priceResponse = cursor.getDouble(4);
+                photoResponse = cursor.getBlob(5);
 
-                plate = new PlateModel(photo, name, kind, preparationTime, price);
+                plate = new PlateModel(nameResponse, kindResponse, preparationTimeResponse,
+                        priceResponse, photoResponse);
                 plates.add(plate);
             }
         }

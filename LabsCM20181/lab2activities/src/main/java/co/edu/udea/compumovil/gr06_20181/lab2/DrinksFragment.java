@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import co.edu.udea.compumovil.gr06_20181.lab2.Adapters.RecyclerDrinksAdapter;
-import co.edu.udea.compumovil.gr06_20181.lab2.DbHelpers.DbDrinksHelper;
+import co.edu.udea.compumovil.gr06_20181.lab2.DbHelpers.DbHelper;
 import co.edu.udea.compumovil.gr06_20181.lab2.Models.DrinkModel;
 
 
@@ -22,7 +22,8 @@ import co.edu.udea.compumovil.gr06_20181.lab2.Models.DrinkModel;
  */
 public class DrinksFragment extends Fragment {
 
-    public static DbDrinksHelper dbDrinksHelper;
+    private static DbHelper dbHelper;
+
     public ArrayList<DrinkModel> drinks;
 
     RecyclerView recyclerView;
@@ -41,7 +42,7 @@ public class DrinksFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_drinks, container, false);
 
-        dbDrinksHelper = new DbDrinksHelper(getContext());
+        dbHelper = new DbHelper(getActivity());
 
         drinks = initializeData();
 
@@ -56,26 +57,18 @@ public class DrinksFragment extends Fragment {
     }
 
     private ArrayList<DrinkModel> initializeData(){
-        DrinkModel drink;
         ArrayList<DrinkModel> drinks = new ArrayList<>();
-        Cursor cursor;
+        Cursor cursor = dbHelper.getAllDrinks();
+        if(cursor != null){
+            while(cursor.moveToNext()){
+                String nameResponse = cursor.getString(1);
+                double priceResponse = cursor.getDouble(2);
+                byte[] photoResponse = cursor.getBlob(3);
 
-        String name;
-        double price;
-        byte [] photo;
-
-        cursor = dbDrinksHelper.getData();
-
-       if(cursor != null){
-           while(cursor.moveToNext()){
-               name = cursor.getString(1);
-               price = cursor.getDouble(3);
-               photo = cursor.getBlob(4);
-
-               drink = new DrinkModel(photo, name, price);
-               drinks.add(drink);
-           }
-       }
+                DrinkModel drink = new DrinkModel(nameResponse, priceResponse, photoResponse);
+                drinks.add(drink);
+            }
+        }
 
         return drinks;
     }

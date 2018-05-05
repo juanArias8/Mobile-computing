@@ -1,13 +1,13 @@
 package co.edu.udea.compumovil.gr06_20181.lab2.Models;
 
 public class PlateModel {
-    private byte[] photo;
     private String name;
     private String kind;
     private String preparationTime;
     private double price;
+    private byte[] photo;
 
-    public PlateModel(byte[] photo, String name, String kind, String preparationTime, double price) {
+    public PlateModel(String name, String kind, String preparationTime, double price, byte[] photo) {
         this.photo = photo;
         this.name = name;
         this.kind = kind;
