@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00796B</color>
     <color name="colorAccent">#00BCD4</color>
     <color name="colorLightPrimary">#B2DFDB</color>
+    <color name="colorLightWhite">#effffe</color>
     <color name="colorText">#FFFFFF</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>

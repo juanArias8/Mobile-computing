@@ -33,7 +33,7 @@ public class SingupActivity extends AppCompatActivity {
 
             UserModel user = new UserModel(name, email, password, state, image);
             try {
-                //Save user
+                //TODO: Register User
                 android.widget.Toast.makeText(this, String.format("user %s added successfully", name),
                         android.widget.Toast.LENGTH_SHORT).show();
             } catch (Exception e){

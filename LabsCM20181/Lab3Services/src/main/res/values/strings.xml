@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lab2Activities</string>
+    <string name="app_name">Restaurant</string>
 
     <!-- Activity labels -->
     <string name="label_app_activity">Restaurant App</string>
@@ -7,6 +7,7 @@
     <string name="label_singup_activity">Sing up</string>
 
     <!-- login strings -->
+    <string name="login_label">Login</string>
     <string name="login_et_name">Type your name</string>
     <string name="login_et_email">Type your email</string>
     <string name="login_et_password">type your password</string>
@@ -14,6 +15,7 @@
     <string name="login_btn_login">Log in</string>
 
     <!-- sing up strings -->
+    <string name="singup_label">Sing up</string>
     <string name="sing_title">Join our community</string>
     <string name="sing_et_name">Type your name</string>
     <string name="sing_et_email">Type your email</string>
@@ -21,7 +23,7 @@
     <string name="sing_btn_singup">Sing up</string>
 
     <!-- navigation drawer -->
-    <string name="title_activity_app">AppActivity</string>
+    <string name="app_label">Home</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -48,4 +50,7 @@
     <string name="add_drink_et_name">Type drink name</string>
     <string name="add_drink_et_price">Type drink price</string>
     <string name="add_drink_btn_add">Add drink</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
