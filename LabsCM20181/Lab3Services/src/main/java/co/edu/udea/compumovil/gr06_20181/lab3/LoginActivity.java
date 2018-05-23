@@ -4,15 +4,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.DrawableRes;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.view.View;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +20,7 @@ import java.io.ByteArrayOutputStream;
 
 import co.edu.udea.compumovil.gr06_20181.lab3.Interfaces.RestInterface;
 import co.edu.udea.compumovil.gr06_20181.lab3.POJO.Message;
-import co.edu.udea.compumovil.gr06_20181.lab3.POJO.User;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,9 +58,9 @@ public class LoginActivity extends AppCompatActivity {
         ivLogo.setImageDrawable(roundedBitmapDrawable);
     }
 
-    public void login(android.view.View view){
+    public void login(View view){
         if(validateFields()){
-            String email = etEmail.getText().toString().trim();
+            final String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
             Retrofit retrofit = new Retrofit.Builder()
@@ -85,7 +84,9 @@ public class LoginActivity extends AppCompatActivity {
                         if(response.body().getSuccess()){
                             Toast.makeText(getApplicationContext(), response.body().getMessage(),
                                     Toast.LENGTH_SHORT).show();
+
                             Intent intent = new Intent(getApplicationContext(), AppActivity.class);
+                            intent.putExtra("email", email);
                             startActivity(intent);
                         } else {
                             Toast.makeText(getApplicationContext(), response.body().getMessage(),
@@ -107,15 +108,16 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void changeToSingup(android.view.View view){
-        android.content.Intent intent = new android.content.Intent(this, SingupActivity.class);
+    public void changeToSingup(View  view){
+        Intent intent = new Intent(this, SingupActivity.class);
         startActivity(intent);
     }
 
     private boolean validateFields(){
         if(etEmail.getText().toString().equals("") || etPassword.getText().toString().equals("")){
 
-            android.widget.Toast.makeText(this, "All input fields are required", android.widget.Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "All input fields are required",
+             Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

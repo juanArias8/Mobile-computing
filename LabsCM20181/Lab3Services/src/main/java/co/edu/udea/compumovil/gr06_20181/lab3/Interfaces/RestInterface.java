@@ -14,8 +14,9 @@ public interface RestInterface {
 
     String URL_LOGIN = "http://192.168.1.136:5000/login/";
     String URL_SINGUP = "http://192.168.1.136:5000/singup/";
-    String URL_PLATES = "http://192.168.1.136:5000/plates/";
-    String URL_DRINKS = "http://192.168.1.136:5000/drinks/";
+    String URL_USER = "http://192.168.1.136:5000/data/user/";
+    String URL_PLATES = "http://192.168.1.136:5000/data/plates/";
+    String URL_DRINKS = "http://192.168.1.136:5000/data/drinks/";
 
 
     @Headers("Content-Type: application/json")
@@ -23,12 +24,16 @@ public interface RestInterface {
     Call<Message> loginUser(@Body String login);
 
     @Headers("Content-Type: application/json")
+    @POST("/login")
+    Call<User> findUser(@Body String email);
+
+    @Headers("Content-Type: application/json")
     @POST("/singup")
     Call<Message> singupUser(@Body User user);
 
     @Headers("Content-Type: application/json")
     @POST("/data/plates")
-    Call<Message> savePlat(@Body Plate plate);
+    Call<Message> savePlate(@Body Plate plate);
 
     @Headers("Content-Type: application/json")
     @POST("data/drinks")

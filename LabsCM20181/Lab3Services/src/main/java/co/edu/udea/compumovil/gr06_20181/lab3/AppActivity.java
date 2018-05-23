@@ -1,8 +1,11 @@
 package co.edu.udea.compumovil.gr06_20181.lab3;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Base64;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,16 +15,37 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import co.edu.udea.compumovil.gr06_20181.lab3.Interfaces.RestInterface;
+import co.edu.udea.compumovil.gr06_20181.lab3.POJO.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class AppActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    protected NavigationView navigationView = null;
+    protected Toolbar toolbar = null;
+
+    protected ImageView ivPhoto;
+    protected TextView tvName;
+    protected TextView tvEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -43,8 +67,55 @@ public class AppActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Configure Navigation drawer header
+        View headerView = navigationView.getHeaderView(0);
+
+        ivPhoto = (ImageView) headerView.findViewById(R.id.nav_iv_photo);
+        tvName = (TextView) headerView.findViewById(R.id.nav_tv_name);
+        tvEmail = (TextView) headerView.findViewById(R.id.nav_tv_email);
+
+        try {
+            String email = getIntent().getExtras().getString("email");
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(RestInterface.URL_USER)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            RestInterface restInterface = retrofit.create(RestInterface.class);
+
+            try{
+                JSONObject paramObject = new JSONObject();
+                paramObject.put("email", email);
+
+                Call<User> callFindUser = restInterface.findUser(paramObject.toString());
+
+                callFindUser.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        tvName.setText(response.body().getUsername());
+                        tvEmail.setText(response.body().getEmail());
+                        ivPhoto.setImageBitmap(decodeBase64Image(response.body().getPhoto()));
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), t.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            } catch (JSONException je){
+                je.printStackTrace();
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         ProfileFragment fragment = new ProfileFragment();
 
@@ -128,5 +199,10 @@ public class AppActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private Bitmap decodeBase64Image(String image){
+        byte[] decodeImage = Base64.decode(image, 0);
+        return BitmapFactory.decodeByteArray(decodeImage, 0, decodeImage.length);
     }
 }
