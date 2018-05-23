@@ -1,11 +1,15 @@
 package co.edu.udea.compumovil.gr06_20181.lab3;
 
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,7 +26,9 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import co.edu.udea.compumovil.gr06_20181.lab3.DbHelpers.DbHelper;
 import co.edu.udea.compumovil.gr06_20181.lab3.Interfaces.RestInterface;
+import co.edu.udea.compumovil.gr06_20181.lab3.Models.UserModel;
 import co.edu.udea.compumovil.gr06_20181.lab3.POJO.User;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +40,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class AppActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static DbHelper dbHelper;
+
     protected NavigationView navigationView = null;
     protected Toolbar toolbar = null;
 
@@ -41,12 +49,26 @@ public class AppActivity extends AppCompatActivity
     protected TextView tvName;
     protected TextView tvEmail;
 
+    protected UserModel user;
+    protected String email_in;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        dbHelper = new DbHelper(this);
+
+        try {
+            email_in = getIntent().getExtras().getString("email");
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+        updateTableUsers();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -73,57 +95,44 @@ public class AppActivity extends AppCompatActivity
         // Configure Navigation drawer header
         View headerView = navigationView.getHeaderView(0);
 
-        ivPhoto = (ImageView) headerView.findViewById(R.id.nav_iv_photo);
         tvName = (TextView) headerView.findViewById(R.id.nav_tv_name);
         tvEmail = (TextView) headerView.findViewById(R.id.nav_tv_email);
+        ivPhoto = (ImageView) headerView.findViewById(R.id.nav_iv_photo);
 
-        try {
-            String email = getIntent().getExtras().getString("email");
+        user = getUserByEmail(email_in);
 
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(RestInterface.URL_USER)
-                    .addConverterFactory(ScalarsConverterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+        tvName.setText(user.getName());
+        tvEmail.setText(user.getEmail());
+        ivPhoto.setImageDrawable(imageFromByteToDrawable(user.getPhoto()));
 
-            RestInterface restInterface = retrofit.create(RestInterface.class);
+       initProfileFragment();
+    }
 
-            try{
-                JSONObject paramObject = new JSONObject();
-                paramObject.put("email", email);
-
-                Call<User> callFindUser = restInterface.findUser(paramObject.toString());
-
-                callFindUser.enqueue(new Callback<User>() {
-                    @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
-                        tvName.setText(response.body().getUsername());
-                        tvEmail.setText(response.body().getEmail());
-                        ivPhoto.setImageBitmap(decodeBase64Image(response.body().getPhoto()));
-                    }
-
-                    @Override
-                    public void onFailure(Call<User> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), t.getMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            } catch (JSONException je){
-                je.printStackTrace();
-            }
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    private void initProfileFragment(){
+        // Set main fragment
+        Bundle bundle = new Bundle();
+        bundle.putString("name", user.getName());
+        bundle.putString("email", user.getEmail());
+        bundle.putByteArray("photo", user.getPhoto());
 
         ProfileFragment fragment = new ProfileFragment();
+        fragment.setArguments(bundle);
 
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
 
         fragmentTransaction.replace(R.id.fragments_container, fragment);
         fragmentTransaction.commit();
+    }
+
+    private RoundedBitmapDrawable imageFromByteToDrawable(byte[] photo){
+        Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0, photo.length);
+        RoundedBitmapDrawable roundedBitmapDrawable =
+                RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+
+        roundedBitmapDrawable.setCornerRadius(bitmap.getHeight());
+
+        return roundedBitmapDrawable;
     }
 
     @Override
@@ -176,7 +185,12 @@ public class AppActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_item_profile) {
 
+            Bundle bundle = new Bundle();
+            bundle.putString("name", user.getName());
+            bundle.putString("email", user.getEmail());
+            bundle.putByteArray("photo", user.getPhoto());
             fragment = new ProfileFragment();
+            fragment.setArguments(bundle);
 
         } else if (id == R.id.nav_item_settings) {
 
@@ -201,8 +215,88 @@ public class AppActivity extends AppCompatActivity
         return true;
     }
 
-    private Bitmap decodeBase64Image(String image){
+    private void updateTableUsers(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(RestInterface.URL_USER)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RestInterface restInterface = retrofit.create(RestInterface.class);
+
+        try{
+            JSONObject paramObject = new JSONObject();
+            paramObject.put("email", email_in);
+
+            Call<User> callFindUser = restInterface.findUser(paramObject.toString());
+
+            callFindUser.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User>  response) {
+
+                    String name = response.body().getUsername();
+                    String email = response.body().getEmail();
+                    String password = response.body().getPassword();
+                    String status = response.body().getStatus();
+                    String photo_encode = response.body().getPhoto();
+
+                    byte [] photo =  Base64.decode(photo_encode, 0);
+
+                    UserModel user = new UserModel(
+                            name, email, password, status, photo
+                    );
+
+                    try {
+                        DbHelper dbHelper = new DbHelper(getApplicationContext());
+                        dbHelper.saveUser(user);
+                        Toast.makeText(getApplicationContext(), "user saved into db",
+                                Toast.LENGTH_SHORT).show();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), t.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } catch (JSONException je){
+            je.printStackTrace();
+        }
+
+    }
+
+    private UserModel getUserByEmail(String email){
+        UserModel userModel;
+        Cursor cursor = dbHelper.getUserByEmail(email);
+        if(cursor.moveToNext()){
+            String nameResponse = cursor.getString(1);
+            String emailResponse = cursor.getString(2);
+            String passwordResponse = cursor.getString(3);
+            String stateResponse = cursor.getString(4);
+            byte[] photoResponse = cursor.getBlob(5);
+
+            userModel =  new UserModel(nameResponse, emailResponse, passwordResponse,
+                    stateResponse, photoResponse);
+        } else {
+            userModel =  new UserModel("null", "null", "null",
+                    "null", null);
+        }
+        Log.e("Username from db =>", userModel.getName());
+        return userModel;
+    }
+
+    private RoundedBitmapDrawable decodeBase64Image(String image){
         byte[] decodeImage = Base64.decode(image, 0);
-        return BitmapFactory.decodeByteArray(decodeImage, 0, decodeImage.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(decodeImage, 0, decodeImage.length);
+        RoundedBitmapDrawable roundedBitmapDrawable =
+                RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+
+        roundedBitmapDrawable.setCornerRadius(bitmap.getHeight());
+
+        return roundedBitmapDrawable;
     }
 }

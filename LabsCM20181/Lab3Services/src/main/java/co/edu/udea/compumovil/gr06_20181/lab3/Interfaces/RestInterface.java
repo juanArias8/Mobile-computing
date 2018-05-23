@@ -24,7 +24,7 @@ public interface RestInterface {
     Call<Message> loginUser(@Body String login);
 
     @Headers("Content-Type: application/json")
-    @POST("/login")
+    @POST("/data/user")
     Call<User> findUser(@Body String email);
 
     @Headers("Content-Type: application/json")
@@ -36,6 +36,6 @@ public interface RestInterface {
     Call<Message> savePlate(@Body Plate plate);
 
     @Headers("Content-Type: application/json")
-    @POST("data/drinks")
+    @POST("/data/drinks")
     Call<Message> saveDrink(@Body Drink drink);
 }

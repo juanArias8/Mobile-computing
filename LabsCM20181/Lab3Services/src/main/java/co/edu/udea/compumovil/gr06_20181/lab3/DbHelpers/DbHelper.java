@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import co.edu.udea.compumovil.gr06_20181.lab3.DatabaseModels.DrinksDb;
 import co.edu.udea.compumovil.gr06_20181.lab3.DatabaseModels.PlatesDb;
+import co.edu.udea.compumovil.gr06_20181.lab3.DatabaseModels.UsersDb;
 import co.edu.udea.compumovil.gr06_20181.lab3.Models.DrinkModel;
 import co.edu.udea.compumovil.gr06_20181.lab3.Models.PlateModel;
 import co.edu.udea.compumovil.gr06_20181.lab3.Models.UserModel;
@@ -23,6 +24,16 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        db.execSQL(
+                "CREATE TABLE IF NOT EXISTS " + UsersDb.UsersEntry.TABLE + " ("
+                        + UsersDb.UsersEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        + UsersDb.UsersEntry.NAME + " TEXT NOT NULL, "
+                        + UsersDb.UsersEntry.EMAIL + " TEXT NOT NULL, "
+                        + UsersDb.UsersEntry.PASSWORD + " TEXT NOT NULL, "
+                        + UsersDb.UsersEntry.STATE + " TEXT NOT NULL, "
+                        + UsersDb.UsersEntry.PHOTO + " BLOB NOT NULL ) "
+        );
 
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS " + PlatesDb.PlatesEntry.TABLE + " ("
@@ -49,6 +60,66 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists " + PlatesDb.PlatesEntry.TABLE);
         db.execSQL("drop table if exists " + DrinksDb.DrinksEntry.TABLE);
         onCreate(db);
+    }
+
+    /*************************************************************************
+     *
+     * USER TABLE OPERATIONS
+     *
+     *************************************************************************/
+    public ContentValues userToContentValues(UserModel user){
+        ContentValues values = new ContentValues();
+        values.put(UsersDb.UsersEntry.NAME, user.getName());
+        values.put(UsersDb.UsersEntry.EMAIL, user.getEmail());
+        values.put(UsersDb.UsersEntry.PASSWORD, user.getPassword());
+        values.put(UsersDb.UsersEntry.STATE, user.getState());
+        values.put(UsersDb.UsersEntry.PHOTO, user.getPhoto());
+        return values;
+    }
+
+    public long saveUser(UserModel user){
+        SQLiteDatabase db = getWritableDatabase();
+
+        return db.insert(
+                UsersDb.UsersEntry.TABLE,
+                null,
+                userToContentValues(user)
+        );
+    }
+
+    public Cursor getUserByEmail(String email){
+        return getReadableDatabase()
+                .query(
+                        UsersDb.UsersEntry.TABLE,
+                        null,
+                        UsersDb.UsersEntry.EMAIL + " LIKE ?",
+                        new String[]{email},
+                        null,
+                        null,
+                        null
+                );
+    }
+
+    public Cursor getUserByStateActive(){
+        return getReadableDatabase()
+                .query(
+                        UsersDb.UsersEntry.TABLE,
+                        null,
+                        UsersDb.UsersEntry.STATE + " LIKE ?",
+                        new String[]{"1"},
+                        null,
+                        null,
+                        null
+                );
+    }
+
+    public int updateUserState(UserModel user){
+        return getWritableDatabase().update(
+                UsersDb.UsersEntry.TABLE,
+                userToContentValues(user),
+                UsersDb.UsersEntry.EMAIL+ " LIKE ?",
+                new String[]{user.getEmail()}
+        );
     }
 
     /*************************************************************************
